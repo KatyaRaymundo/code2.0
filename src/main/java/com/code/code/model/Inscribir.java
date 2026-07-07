@@ -21,7 +21,7 @@ public class Inscribir {
 
     // estudiante depende de materia (llave foranea)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idInscribir", nullable = false)
+    @JoinColumn(name = "idEstudiante", nullable = false)
     @JsonIgnoreProperties("Inscribir")
     private Estudiante estudiante;
 
