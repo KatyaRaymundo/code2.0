@@ -1,7 +1,12 @@
 package com.code.code.model;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -19,7 +24,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "Estudiantes")
-public class Estudiante {
+public class Estudiante implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEstudiante;
@@ -151,6 +156,21 @@ public class Estudiante {
 
     public void setMateriaAprobadaEstudiante(Byte materiaAprobadaEstudiante) {
         this.materiaAprobadaEstudiante = materiaAprobadaEstudiante;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public String getPassword() {
+        return this.claveEstudiante;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.correoEstudiante;
     }
 
 }

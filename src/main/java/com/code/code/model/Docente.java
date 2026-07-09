@@ -1,7 +1,12 @@
 package com.code.code.model;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -16,7 +21,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "Docentes")
-public class Docente {
+public class Docente implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -142,6 +147,21 @@ public class Docente {
 
     public void setImagenDocente(String imagenDocente) {
         this.imagenDocente = imagenDocente;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public String getPassword() {
+        return this.claveDocente;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.correoDocente;
     }
 
 }
