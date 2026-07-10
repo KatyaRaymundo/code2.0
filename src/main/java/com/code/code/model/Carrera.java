@@ -12,11 +12,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
 
 @Entity
 @Table(name = "Carrera")
-@Data
 public class Carrera {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
