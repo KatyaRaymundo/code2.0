@@ -4,6 +4,8 @@ import java.security.Key;
 import java.util.Date;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
@@ -25,8 +27,20 @@ public class JwtTokenProvider {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION_MS);
 
+        String rol = "ALUMNO";
+
+        if (authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            rol = userDetails.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .filter(auth -> !auth.equals("FACTOR_PASSWORD"))
+                    .findFirst()
+                    .orElse("ALUMNO");
+        }
+
         return Jwts.builder()
                 .setSubject(correo)
+                .claim("rol", rol)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
                 .signWith(key, SignatureAlgorithm.HS256)
