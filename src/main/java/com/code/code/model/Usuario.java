@@ -7,6 +7,8 @@ import java.util.Date;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -47,6 +49,7 @@ public class Usuario implements UserDetails {
     private String carnetUsuario;
 
     @Column(name = "clave_usuario", length = 255, nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String claveUsuario;
 
     @Column(name = "imagen_usuario", length = 250, nullable = false)
@@ -149,6 +152,7 @@ public class Usuario implements UserDetails {
     }
 
     @Override
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public String getPassword() {
         return this.claveUsuario;
     }

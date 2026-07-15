@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.code.code.Repository.DocenteRepository;
 import com.code.code.Repository.EstudianteRepository;
 import com.code.code.dto.JwtResponse;
 import com.code.code.dto.LoginRequest;
+import com.code.code.model.Docente;
 import com.code.code.model.Estudiante;
 import com.code.code.security.JwtTokenProvider;
 
@@ -22,13 +24,14 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "*") // !! Modificar Despues
+@CrossOrigin(origins = "*") // !! Modificar Déspues
 @AllArgsConstructor
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider tokenProvider;
     private EstudianteRepository estudianteRepository;
+    private DocenteRepository docenteRepository;
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("/login")
@@ -51,6 +54,23 @@ public class AuthController {
             Estudiante estudiante = estudianteRepository.save(nuevoEstudiante);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(estudiante);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error al registrar " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/registrar/docente")
+    public ResponseEntity<?> registrarDocente(@RequestBody Docente nuevoDocente) {
+        try {
+            String claveLimpia = nuevoDocente.getClaveUsuario();
+            String claveEncriptada = passwordEncoder.encode(claveLimpia);
+
+            nuevoDocente.setClaveUsuario(claveEncriptada);
+            nuevoDocente.setTipoUsuario("DOCENTE");
+
+            Docente docente = docenteRepository.save(nuevoDocente);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(docente);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error al registrar " + e.getMessage());
         }
