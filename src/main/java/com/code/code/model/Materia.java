@@ -108,4 +108,36 @@ public class Materia {
     public void setCicloMateria(String cicloMateria) {
         this.cicloMateria = cicloMateria;
     }
+
+    public List<Promedio> getPromedio() {
+        return promedio;
+    }
+
+    public void setPromedio(List<Promedio> promedio) {
+        this.promedio = promedio;
+    }
+
+    public List<Programa> getPrograma() {
+        return programa;
+    }
+
+    public void setPrograma(List<Programa> programa) {
+        this.programa = programa;
+    }
+
+    public Docente getDocente() {
+        return docente;
+    }
+
+    public void setDocente(Docente docente) {
+        this.docente = docente;
+    }
+
+    public Carrera getCarrera() {
+        return carrera;
+    }
+
+    public void setCarrera(Carrera carrera) {
+        this.carrera = carrera;
+    }
 }
